@@ -16,7 +16,3 @@ function solution(priorities, location) {
         if (location === -1) location = priorities.length - 1;
     }
 }
-
-//solution([2, 1, 3, 2], 2) //1
-//solution([1, 1, 9, 1, 1, 1], 0) //5
-solution([2,3,3,"2",9,3,3], 3) //return = 6
