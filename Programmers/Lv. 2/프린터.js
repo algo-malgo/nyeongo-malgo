@@ -1,23 +1,22 @@
 function solution(priorities, location) {
-    let answer = location;
-    let max = Math.max.apply(null, priorities);
-    let count = priorities.length
+    let max, count = 0;
 
-    while(count > 0){
-        for(let i=0; i<priorities.length; i++){
-            if (priorities[0] !== max) {
-                answer --;
-                priorities.shift();
-                priorities.push(priorities[i]);
-            }
-            else max = Math.max.apply(null, priorities);
+    while(1){
+        max = Math.max.apply(null, priorities);
+        let J = priorities.shift();
+
+        if (J === max) {
+            count++;
+            console.log(count)
+            if (location === 0) return count;
         }
-        count--;
-    }
+        else priorities.push(J);
+        location--;
 
-    return answer<0 ? priorities.length + answer + 1 : answer + 1;
+        if (location === -1) location = priorities.length - 1;
+    }
 }
 
-solution([2, 1, 3, 2], 2) //1
+//solution([2, 1, 3, 2], 2) //1
 //solution([1, 1, 9, 1, 1, 1], 0) //5
-//solution([2,3,3,"2",9,3,3], 3) //return = 6
+solution([2,3,3,"2",9,3,3], 3) //return = 6
