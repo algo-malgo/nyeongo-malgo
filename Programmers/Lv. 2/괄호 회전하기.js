@@ -1,28 +1,37 @@
 const checkBracket = (s) => {
   let count = 0;
+  let arr = [];
+
   s.forEach((el) => {
-    let arr = [];
-    console.log(el);
-    if (arr.length === 0) arr.push(el);
-    else if (el === ")" && arr[arr.length - 1] === "(") count++;
+    arr.push(el);
+
+    if (arr.length === 1) return;
+    else if (el === ")" && arr[arr.length - 2] === "(") count++;
+    else if (el === "}" && arr[arr.length - 2] === "{") count++;
+    else if (el === "]" && arr[arr.length - 2] === "[") count++;
   });
+
+  return count === 3 ? 1 : 0;
 };
 
 function solution(s) {
-  var answer = -1;
+  var answer = 0;
   let temp = s.split("");
 
   for (let i = 0; i < s.length; i++) {
     temp.push(temp[0]);
     temp.shift();
-    //console.log(temp);
-    checkBracket(temp);
+    answer += checkBracket(temp);
   }
+  console.log(answer);
 
   return answer;
 }
 
 solution("[](){}");
+solution("}]()[{");
+solution("[)(]");
+solution("}}}");
 
 /*
 s	result
