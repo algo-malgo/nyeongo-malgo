@@ -1,42 +1,27 @@
-const checkBracket = (s) => {
-  let count = 0;
-  let arr = [];
+const pair = { "}": "{", "]": "[", ")": "(" };
 
-  s.forEach((el) => {
-    arr.push(el);
+const isCheckBracket = (arr) => {
+  const stack = [];
 
-    if (arr.length === 1) return;
-    else if (el === ")" && arr[arr.length - 2] === "(") count++;
-    else if (el === "}" && arr[arr.length - 2] === "{") count++;
-    else if (el === "]" && arr[arr.length - 2] === "[") count++;
-  });
-
-  return count === 3 ? 1 : 0;
+  for (let i = 0; i < arr.length; i++) {
+    const c = arr[i];
+    if (pair[c] === undefined) stack.push(c);
+    else {
+      if (stack[stack.length - 1] !== pair[c]) return false;
+      stack.pop();
+    }
+  }
+  if (stack.length) return false;
+  return true;
 };
 
 function solution(s) {
-  var answer = 0;
+  let answer = 0;
   let temp = s.split("");
 
   for (let i = 0; i < s.length; i++) {
-    temp.push(temp[0]);
-    temp.shift();
-    answer += checkBracket(temp);
+    if (isCheckBracket(temp)) answer++;
+    temp.push(temp.shift());
   }
-  console.log(answer);
-
   return answer;
 }
-
-solution("[](){}");
-solution("}]()[{");
-solution("[)(]");
-solution("}}}");
-
-/*
-s	result
-"[](){}"	3
-"}]()[{"	2
-"[)(]"	0
-"}}}"	0
-*/
