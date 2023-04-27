@@ -1,25 +1,11 @@
 function solution(people, limit) {
-    var answer = 1;
-    let boat = limit;
+  let answer = 0;
 
-    people.sort((a,b) => a-b).map(el => {
-        if (limit/2 >= el) console.log(el) 
-        
-        if (boat-el < 0) {
-            answer++;
-            boat = limit-el;
-        } else {
-            boat -= boat-el
-        }
-    })
-    console.log(people)
-    console.log(answer)
+  people.sort((a, b) => b - a);
 
-    return answer;
+  for (let i = 0, j = people.length - 1; i <= j; answer++, i++) {
+    if (people[i] + people[j] <= limit) j--;
+  }
+
+  return answer;
 }
-
-solution([70, 80, 50], 100) //3
-/*
-[70, 50, 80, 50]	100	3
-[70, 80, 50]	100	3
-*/
