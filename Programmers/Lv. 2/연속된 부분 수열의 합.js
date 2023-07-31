@@ -1,15 +1,28 @@
 function solution(sequence, k) {
-  let answer = [];
-  let temp = k;
+  let left = 0;
+  let right = 0;
+  let sum = sequence[0];
+  const result = [];
 
-  for (let i = 0; i < sequence.length; i++) {
-    for (let j = i; j < sequence.length; j++) {
-      temp -= sequence[j];
-      if (temp === 0) answer.push([i, j]);
-      else if (temp < 0) break;
+  while (right < sequence.length) {
+    if (sum < k) {
+      right++;
+      sum += sequence[right];
+    } else if (sum > k) {
+      sum -= sequence[left];
+      left++;
+    } else {
+      result.push([left, right]);
+      right++;
+      sum += sequence[right];
     }
-    temp = k;
   }
 
-  return answer.sort((a, b) => a[1] - a[0] - (b[1] - b[0]))[0];
+  return result.sort(condition)[0];
+}
+
+function condition(a, b) {
+  const lenDiff = Math.abs(a[0] - a[1]) - Math.abs(b[0] - b[1]);
+  if (lenDiff !== 0) return lenDiff;
+  return a[0] - b[0];
 }
