@@ -1,19 +1,20 @@
 function solution(n, left, right) {
-  const arr = [];
-  for (let i = 0; i < n; i++) {
-    arr[i] = new Array(n).fill(0);
+  const arr = [],
+    result = [];
+
+  for (let i = 1; i <= n; i++) {
+    arr.push(i);
+    result.push(i);
   }
 
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (i < j && i + 1 <= j) arr[i][j] = j + 1;
-      else arr[i][j] = i + 1;
+  while (arr.length > 1) {
+    arr.shift();
+    let k = arr[0];
+    for (let i = 0; i < n; i++) {
+      if (k > 0) result.push(arr[0]);
+      else result.push(result[i]);
+      k--;
     }
-  }
-
-  const result = [];
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr[i].length; j++) result.push(arr[i][j]);
   }
 
   return result.slice(left, right + 1);
