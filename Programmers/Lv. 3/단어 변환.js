@@ -1,4 +1,4 @@
-const handleCheckWord = (wordA, wordB) => {
+const isCheckWord = (wordA, wordB) => {
   let count = wordA.length;
   for (let i = 0; i < wordA.length; i++) {
     if (wordA[i] === wordB[i]) count--;
@@ -7,34 +7,20 @@ const handleCheckWord = (wordA, wordB) => {
 };
 
 function solution(begin, target, words) {
-  let answer = 0,
-    tempTarget = begin;
-  if (!words.includes(target)) return 0;
+  const visited = { [begin]: 0 };
+  const queue = [begin];
 
-  while (tempTarget !== target) {
-    for (let i = 0; i < words.length; i++) {
-      for (let j = 0; j < begin.length; j++) {
-        if (words[i] === tempTarget) continue;
-        else if (tempTarget === target) return answer;
-        else if (
-          words[i][j] === tempTarget[j] &&
-          handleCheckWord(words[i], target)
-        ) {
-          return answer + 2;
-        } else if (
-          words[i][j] === tempTarget[j] &&
-          handleCheckWord(words[i], tempTarget)
-        ) {
-          tempTarget = words[i];
-          answer++;
-        } else if (
-          words[i][j] === tempTarget[j] &&
-          !handleCheckWord(words[i], tempTarget)
-        )
-          continue;
+  while (queue.length) {
+    const cur = queue.shift();
+
+    if (cur === target) break;
+
+    for (const word of words) {
+      if (isCheckWord(word, cur) && !visited[word]) {
+        visited[word] = visited[cur] + 1;
+        queue.push(word);
       }
     }
   }
-
-  return answer;
+  return visited[target] ? visited[target] : 0;
 }
