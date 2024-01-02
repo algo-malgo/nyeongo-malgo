@@ -1,28 +1,22 @@
 function solution(maps) {
-  const yLen = maps.length; //세로
-  const xLen = maps[0].length; //가로
-  const goalY = yLen - 1;
-  const goalX = xLen - 1;
-  const dy = [0, 0, 1, -1]; //남북
-  const dx = [-1, 1, 0, 0]; //동서
-
+  const xLen = maps[0].length,
+    yLen = maps.length;
+  const goalX = xLen - 1,
+    goalY = yLen - 1;
   const queue = [];
-  queue.push([0, 0, 1]); // 현재 위치와 지나는 칸 개수의 최솟값
+  queue.push([0, 0, 1]);
 
   while (queue.length) {
-    const [curY, curX, move] = queue.shift();
+    const [y, x, cnt] = queue.shift();
 
-    if (curY === goalY && curX === goalX) return move;
+    if (x === goalX && y === goalY) return cnt;
+    if (x < 0 || x >= xLen || y < 0 || y >= yLen || maps[y][x] === 0) continue;
 
-    for (let i = 0; i < 4; i++) {
-      const ny = curY + dy[i];
-      const nx = curX + dx[i];
-
-      if (ny >= 0 && ny < yLen && nx >= 0 && nx < xLen && maps[ny][nx] === 1) {
-        queue.push([ny, nx, move + 1]);
-        maps[ny][nx] = 0;
-      }
-    }
+    maps[y][x] = 0;
+    queue.push([y + 1, x, cnt + 1]);
+    queue.push([y - 1, x, cnt + 1]);
+    queue.push([y, x + 1, cnt + 1]);
+    queue.push([y, x - 1, cnt + 1]);
   }
 
   return -1;
